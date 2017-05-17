@@ -1,22 +1,102 @@
-# Compiled class file
-*.class
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Scanner;
 
-# Log file
-*.log
 
-# BlueJ files
-*.ctxt
+public class Composite {
+	 private Collection<Composite> childComposite = new ArrayList<Composite>();
+	 /**
+	     * 用来记录包含的其它叶子对象
+	     */
+	    private Collection<Leaf> childLeaf = new ArrayList<Leaf>();
+	    /**
+	     * 组合对象的名字
+	     */
+	    private int N ,s ;
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+	    /**
+	     * 构造方法，传入组合对象的名字
+	     * @param name 组合对象的名字
+	     */
+	    public Composite(int n){
+	    	this.N = n;
+	    }
 
-# Package Files #
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-*.rar
+	    public int jiecheng(int N)//第n个数的阶乘
+        {
+           return s=jiecheng(N-1)*N;
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+        }
+	    /**
+	     * 向组合对象加入被它包含的其它组合对象
+	     * @param c 被它包含的其它组合对象
+	     */
+	    public void addComposite(Composite c){
+	       this.childComposite.add(c);
+	    }
+	    /**
+	     * 向组合对象加入被它包含的叶子对象
+	     * @param leaf 被它包含的叶子对象
+	     */
+	    public void addLeaf(Leaf leaf){
+	       this.childLeaf.add(leaf);
+	    }
+	    public void printStruct(int n){
+	       
+	        System.out.println(1);
+//	      
+	        
+	        //输出当前对象的子对象了
+	        for(Composite c : childComposite){
+	            //递归输出每个子对象
+	            c.printStruct(c.jiecheng(N));
+	        }
+	     }
+
+}
+
+
+ class Leaf {
+    /**
+     * 叶子对象的名字
+     */
+    private int N1;
+
+    /**
+     * 构造方法，传入叶子对象
+     *
+     */
+    public Leaf(int n){
+       this.N1 = n;
+    }
+    public int jiecheng(int N1)//第n个数的阶乘
+    {
+       return 1;
+
+    }
+
+   
+   
+}
+ 
+ class Client {
+	    public static void main(String[] args) {
+	       //定义所有的组合对象
+	    	System.out.println("请输入你要求的大于1的阶乘数");
+	    	Scanner scan=new Scanner(System.in);
+	    	int n=scan.nextInt();
+	       Composite root = new Composite(n);
+	      
+	       //定义叶子对象
+	       Leaf leaf = new Leaf(1);
+	       Composite composite1 = new Composite(n-1);
+	       //按照树的结构来组合组合对象和叶子对象
+	       root.addComposite(composite1);
+	       root.addLeaf(leaf);
+	       
+	       root.printStruct(n);
+          
+
+	      	       
+	    }
+	}
